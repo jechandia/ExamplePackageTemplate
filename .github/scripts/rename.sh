@@ -38,4 +38,7 @@ find . -depth -type d \
       [ "$base" != "$new_base" ] && mv "$dir" "$parent/$new_base"
     done
 
+# 4. Remove template setup section from README
+sed -i '/<!-- TEMPLATE_SETUP_START -->/,/<!-- TEMPLATE_SETUP_END -->/d' README.md
+
 echo "✓ Done!"
