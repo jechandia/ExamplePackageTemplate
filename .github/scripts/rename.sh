@@ -1,9 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-NEW_NAME="${1:?Usage: rename.sh <NewName>}"
+REPO_NAME="${1:?Usage: rename.sh <repo-name>}"
 
-echo "→ Renaming 'ExamplePackageTemplate' → '$NEW_NAME' (leaving 'Example' app intact)"
+# Convert kebab-case to PascalCase (e.g. my-awesome-package → MyAwesomePackage)
+NEW_NAME=$(echo "$REPO_NAME" | sed 's/-\([a-zA-Z]\)/\U\1/g; s/^\([a-zA-Z]\)/\U\1/')
+
+echo "→ Renaming 'ExamplePackageTemplate' → '$NEW_NAME' (repo: $REPO_NAME, leaving 'Example' app intact)"
 
 # 1. Replace text content in all non-binary files that contain "ExamplePackageTemplate"
 grep -rlI "ExamplePackageTemplate" --exclude-dir=".git" --exclude-dir=".github" . \
